@@ -1,0 +1,67 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Campbenefits;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class CampBenefitTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $campBenefits = [
+            [
+                'camp_id'   => 1,
+                'name'      =>'Pro Techstack Kit'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'iMac Pro 2021 & Display'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'1-1 Mentoring'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'Final Project Certificate'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'Offline Course Videos'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'Future Job Opportunity'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'Premium Design Kit'
+            ],
+            [
+                'camp_id'   => 1,
+                'name'      =>'Website Builder'
+            ],
+            [
+                'camp_id'   => 2,
+                'name'      =>'1-1 Mentoring'
+            ],
+            [
+                'camp_id'   => 2,
+                'name'      =>'Final Project Certificate'
+            ],
+            [
+                'camp_id'   => 2,
+                'name'      =>'Offline Course Videos'
+            ],
+        ];
+
+        Campbenefits::insert($campBenefits);
+    }
+}
