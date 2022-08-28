@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +15,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('layouts.index');
-});
+})->name('index');
 
-Route::get('/login', function() { return view('layouts.login'); })->name('login');
-Route::get('/checkouts', function() { return view('layouts.checkouts'); })->name('checkouts');
+Route::get('/checkouts', function() {
+    return view('layouts.checkouts');
+})->name('checkouts');
+
+Route::get('/success-checkout', function() {
+    return view('layouts.success_checkouts');
+})->name('success_checkouts');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
 
