@@ -4,6 +4,9 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\User\DashboardController as UserDashboard;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\CheckoutController as AdminCheckout;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +29,26 @@ Route::get('/', [CheckoutController::class, 'index'])->name('index');
 
 Route::middleware(['auth'])->group(function () {
     //checkout routes
-    Route::get('/checkouts/success', [CheckoutController::class, 'success'])->name('success_checkouts');
-    Route::get('/checkouts/{camp:slug}', [CheckoutController::class, 'create'])->name('checkouts');
-    Route::post('/checkouts/{camp}', [CheckoutController::class, 'store'])->name('checkouts.store');
+    Route::get('/checkouts/success', [CheckoutController::class, 'success'])->name('success_checkouts')->middleware('ensureUserRole:user');
+    Route::get('/checkouts/{camp:slug}', [CheckoutController::class, 'create'])->name('checkouts')->middleware('ensureUserRole:user');
+    Route::post('/checkouts/{camp}', [CheckoutController::class, 'store'])->name('checkouts.store')->middleware('ensureUserRole:user');
 
     //dashboard
-    Route::get('dashboard-invoice', [CheckoutController::class, 'dashboard'])->name('dashboard.invoice');
+    Route::get('dashboard', [CheckoutController::class, 'dashboard'])->name('dashboard');
+
+    //user dashboard
+    Route::prefix('user/dashboard')->namespace('User')->name('user.')->middleware('ensureUserRole:user')->group(function(){
+        Route::get('/', [UserDashboard::class, 'index'])->name('dashboard');
+    });
+
+    //admin dashboard
+    Route::prefix('admin/dashboard')->namespace('Admin')->name('admin.')->middleware('ensureUserRole:admin')->group(function(){
+        //dashboard
+        Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
+
+        //admin set paid checkout
+        Route::post('checkout/{checkout}', [AdminCheckout::class, 'update'])->name('checkout.update');
+    });
 });
 
 Route::get('sign-in', [UserController::class, 'google'])->name('user.login.google');

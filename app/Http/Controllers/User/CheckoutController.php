@@ -32,7 +32,7 @@ class CheckoutController extends Controller
     {        
         if ($camp->isRegistered) {
             $request->session()->flash('error', "You already registered on {$camp->title} camp.");
-            return redirect(route('dashboard.invoice'));
+            return redirect(route('user.dashboard'));
         }
 
         return view('layouts.checkouts', [
@@ -123,7 +123,14 @@ class CheckoutController extends Controller
 
     public function dashboard()
     {
-        $checkouts = Checkouts::with('Camp')->whereUserId(Auth::id())->get();
-        return view('layouts.invoice', compact('checkouts'));
+        switch (Auth::user()->is_admin) {
+            case true:
+                return redirect(route('admin.dashboard'));
+                break;
+            
+            default:
+            return redirect(route('user.dashboard'));
+                break;
+        }
     }
 }
