@@ -32,7 +32,6 @@ Route::middleware(['auth'])->group(function () {
 
     //dashboard
     Route::get('dashboard-invoice', [CheckoutController::class, 'dashboard'])->name('dashboard.invoice');
-    Route::get('dashboard/checkout/invoice/{checkout}', [CheckoutController::class, 'invoice'])->name('user.checkout.invoice');
 });
 
 Route::get('sign-in', [UserController::class, 'google'])->name('user.login.google');
