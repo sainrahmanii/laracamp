@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -15,24 +16,26 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.index');
-})->name('index');
+// Route::get('/', function () {
+//     return view('layouts.index');
+// })->name('index');
 
-Route::get('/checkouts', function() {
-    return view('layouts.checkouts');
-})->name('checkouts');
+Route::get('/', [CheckoutController::class, 'index'])->name('index');
 
-Route::get('/success-checkout', function() {
-    return view('layouts.success_checkouts');
-})->name('success_checkouts');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    //checkout routes
+    Route::get('/checkouts/success', [CheckoutController::class, 'success'])->name('success_checkouts');
+    Route::get('/checkouts/{camp:slug}', [CheckoutController::class, 'create'])->name('checkouts');
+    Route::post('/checkouts/{camp}', [CheckoutController::class, 'store'])->name('checkouts.store');
+
+    //dashboard
+    Route::get('dashboard-invoice', [CheckoutController::class, 'dashboard'])->name('dashboard.invoice');
+    Route::get('dashboard/checkout/invoice/{checkout}', [CheckoutController::class, 'invoice'])->name('user.checkout.invoice');
+});
 
 Route::get('sign-in', [UserController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('auth.google.callback');
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
