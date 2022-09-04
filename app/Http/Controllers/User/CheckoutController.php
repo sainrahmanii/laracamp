@@ -69,6 +69,8 @@ class CheckoutController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->occupation = $data['occupation'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
         $user->save();
 
         // create checkout
@@ -152,7 +154,7 @@ class CheckoutController extends Controller
     public function getSnapRedirect(Checkouts $checkout)
     {
         $price = $checkout->Camp->price * 1000;
-        $orderId = $checkout->id.'-'.Str::rand(5);
+        $orderId = $checkout->id.'-'.Str::random(5);
 
         $checkout->midtrans_booking_code = $orderId;
 
@@ -210,10 +212,10 @@ class CheckoutController extends Controller
 
     public function midtransCallback(Request $request)
     {
-        $notif = new Midtrans\Notification();
+        $notif = $request->method() == 'POST' ? new Midtrans\Notification() : Midtrans\Transaction::status($request->order_id);
 
         $transaction_status = $notif->transaction_status;
-        $fraud = $notif->fraud_status;
+        $fraud = $notif->transaction_status;
 
         $checkout_id = explode('-', $notif->order_id)[0];
         $checkout = Checkouts::find($checkout_id);

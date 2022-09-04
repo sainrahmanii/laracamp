@@ -27,8 +27,8 @@ Route::get('/', [CheckoutController::class, 'index'])->name('index');
 
 //midtrans routes
 
-Route::get('payment/success', [UserController::class, 'midtransCallback']);
-Route::post('payment/success', [UserController::class, 'midtransCallback']);
+Route::get('payment/success', [CheckoutController::class, 'midtransCallback']);
+Route::post('payment/success', [CheckoutController::class, 'midtransCallback']);
 
 
 
