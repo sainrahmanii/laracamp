@@ -26,12 +26,11 @@ class Store extends FormRequest
     {
         $expiredValidation = date('Y-m', time());
         return [
-            'name'      => 'required',
-            'email'     => 'required',
-            'occupation'=> 'required',
-            'card_number'=> 'required|numeric|digits_between:8,16',
-            'expired'=> 'required|date|date_format:Y-m|after_or_equal:'.$expiredValidation,
-            'cvc'=> 'required|numeric|digits:3',
+            'name'      => 'required|string',
+            'email'     => 'required|email|unique:users,email,'.Auth::id().',id',
+            'occupation'=> 'required|string',
+            'phone'     => 'required|string',
+            'address'   => 'required|string',
         ];
     }
 }
