@@ -25,6 +25,11 @@ use App\Http\Controllers\Admin\CheckoutController as AdminCheckouts;
 
 Route::get('/', [CheckoutController::class, 'index'])->name('index');
 
+//midtrans routes
+
+Route::get('payment/success', [UserController::class, 'midtransCallback']);
+Route::post('payment/success', [UserController::class, 'midtransCallback']);
+
 
 
 Route::middleware(['auth'])->group(function () {
