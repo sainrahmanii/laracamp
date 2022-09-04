@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\CheckoutController as AdminCheckouts;
+use App\Http\Controllers\Admin\DiscountController as AdminDiscount;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,12 +48,15 @@ Route::middleware(['auth'])->group(function () {
     });
 
     //admin dashboard
-    Route::prefix('admin/dashboard')->namespace('Admin')->name('admin.')->middleware('ensureUserRole:admin')->group(function(){
+    Route::prefix('admin/dashboard')->name('admin.')->middleware('ensureUserRole:admin')->group(function(){
         //dashboard
         Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
 
         //admin set to paid
         Route::post('checkout/{checkout}', [AdminCheckouts::class, 'update'])->name('checkout.update');
+
+        //admin discount
+        Route::resource('discount', AdminDiscount::class);
     });
 });
 

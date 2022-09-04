@@ -41,8 +41,8 @@
                             <div class="mb-4">
                                 <label class="form-label">Email Address</label>
                                 <input name="email" type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ Auth::user()->email }}" required />
-                                 @if ($errors->has('email'))
-                                <p class="text-danger">{{ $errors->first('email') }}</p>
+                                @if ($errors->has('email'))
+                                    <p class="text-danger">{{ $errors->first('email') }}</p>
                                 @endif
                             </div>
                             <div class="mb-4">
