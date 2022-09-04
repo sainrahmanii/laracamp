@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\User\DashboardController as UserDashboard;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
-use App\Http\Controllers\Admin\CheckoutController as AdminCheckout;
+use App\Http\Controllers\Admin\CheckoutController as AdminCheckouts;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,8 +46,8 @@ Route::middleware(['auth'])->group(function () {
         //dashboard
         Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
 
-        //admin set paid checkout
-        Route::post('checkout/{checkout}', [AdminCheckout::class, 'update'])->name('checkout.update');
+        //admin set to paid
+        Route::post('checkout/{checkout}', [AdminCheckouts::class, 'update'])->name('checkout.update');
     });
 });
 
